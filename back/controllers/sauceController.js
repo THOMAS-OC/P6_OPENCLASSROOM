@@ -1,9 +1,36 @@
+const { log } = require("console");
 const path = require("path")
+// Importation des models
+const Sauce = require('../models/sauceModel');
+const User = require('../models/userModel');
 
-// CREATE request
+
+// CREATE request OK
 const createSauce = (req, res) => {
-    res.send("Enregistrement d'une sauce avec une image associée")
+    const sauce = new Sauce({
+        userId : 1,
+        name : "Sauce",
+        manufacturer : "xxx",
+        description : "Sauce moutarde",
+        mainPepper : "Moutarde",
+        imageUrl : "/images/moutarde.jpg",
+        heat : 4,
+        likes : 2,
+        dislikes : 2,
+        usersLiked : ["1", "2"] ,
+        usersDisliked : ['3', '4']
+    })
+    sauce.save()
+    .then(() => {
+        res.status(201).json({message : "Sauce enregistrée !"})
+    })
+    .catch(err => { 
+        res.status(400).json({ err })
+        console.log(err);
+    })
 }
+
+// UPDATE request
 
 const updateLike = (req, res) => {
     res.send("Mise à jour du like")
@@ -11,12 +38,23 @@ const updateLike = (req, res) => {
 
 
 // READ request
+// OK
 const readOneSauce = (req, res) => {
-    res.send("Lecture d'une sauce spécifique via le id")
+    Sauce.findById(req.params.id, (err, doc) => {
+        if (err){
+            res.status(400).json({ err })
+        }
+        else {
+            res.status(201).json(doc)
+        }
+    })
 }
 
+// OK
 const readAllSauces = (req, res) => {
-    res.send("Lecture de la liste des sauces")
+    Sauce.find().exec()
+    .then(sauces => res.json(sauces))
+    .catch(err => console.log(err))
 }
 
 
@@ -27,8 +65,16 @@ const updateSauce = (req, res) => {
 
 
 // DELETE request
+// OK
 const deleteSauce = (req, res) => {
-    res.send("Suppression d'une sauce")
+    Sauce.findByIdAndRemove(req.params.id, (err, confirm)=>{
+        if (err){
+            res.status(400).json({ err })
+        }
+        else {
+            res.status(201).json({message : `Sauce ${req.params.id} supprimée !`})
+        }
+    })
 }
 
 
