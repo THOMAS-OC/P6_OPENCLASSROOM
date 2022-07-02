@@ -1,13 +1,15 @@
 const express = require("express")
 const app = express()
+const path = require("path");
 // imporation des routeurs
 const sauceRoute = require('./routes/sauceRoute');
 const loginRoute = require('./routes/loginRoute');
 
 // Middleware route sauce
-app.use('/api/sauces')
+app.use('/api/sauces', sauceRoute)
 
 // Middleware route login
+app.use('/api/auth', loginRoute)
 
 console.log("Hello world");
 
