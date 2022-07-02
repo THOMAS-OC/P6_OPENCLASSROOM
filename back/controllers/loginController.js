@@ -4,13 +4,26 @@ const path = require("path")
 const Sauce = require('../models/sauceModel');
 const User = require('../models/userModel');
 
-// CREATE request
+// READ request
 const login = (req, res) => {
     res.send("Connexion")
 }
 
+// CREATE request
 const signup = (req, res) => {
-    res.send("Inscription")
+    const user = new User({
+        email:"estival.t@hotmail.com",
+        password : 'azerty'
+    })
+
+    user.save()
+    .then(() => {
+        res.status(201).json({message : "Nouvel utilisateur !"})
+    })
+    .catch(err => { 
+        res.status(400).json({ err })
+        console.log(err);
+    })
 }
 
 module.exports = { 

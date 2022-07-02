@@ -2,6 +2,10 @@ const express = require("express")
 const app = express()
 const path = require("path");
 const mongoose = require('mongoose')
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+// traitement du json
 // imporation des routeurs
 const sauceRoute = require('./routes/sauceRoute');
 const loginRoute = require('./routes/loginRoute');
@@ -15,8 +19,6 @@ mongoose.connect('mongodb://localhost:27017/P6_OC')
     console.log(err);
 })
 
-// traitement du json
-app.use(express.json());
 
 
 
@@ -28,7 +30,7 @@ app.use('/api/auth', loginRoute)
 console.log("Hello world");
 
 app.get("/", (req, res) => {
-    res.send("Page d'accueille")
+    res.send("Page d'accueil")
 })
 
 

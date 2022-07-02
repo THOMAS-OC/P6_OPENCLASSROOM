@@ -33,6 +33,7 @@ const createSauce = (req, res) => {
 // UPDATE request
 
 const updateLike = (req, res) => {
+    console.log(req.body);
     res.send("Mise à jour du like")
 }
 
