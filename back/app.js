@@ -3,9 +3,10 @@ const app = express()
 const path = require("path");
 const mongoose = require('mongoose')
 
+// traitement du json
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-// traitement du json
+
 // imporation des routeurs
 const sauceRoute = require('./routes/sauceRoute');
 const loginRoute = require('./routes/loginRoute');
