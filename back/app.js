@@ -28,12 +28,10 @@ app.use('/api/sauces', sauceRoute)
 // Middleware route login
 app.use('/api/auth', loginRoute)
 
-console.log("Hello world");
 
 app.get("/", (req, res) => {
     res.send("Page d'accueil")
 })
-
 
 
 app.listen("3000", ()=>{
