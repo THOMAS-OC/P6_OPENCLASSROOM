@@ -6,12 +6,11 @@ const User = require('../models/userModel');
 
 // READ request
 const login = (req, res) => {
-    res.send("Connexion")
+    res.json({userId : "id1", token : "Supertokenid1"})
 }
 
 // CREATE request
 const signup = (req, res) => {
-    res.set({ 'content-type': 'application/json; charset=utf-8' })
     console.log("on est dans la route de création de compte");
     console.log(req.body);
     bcrypt.hash(req.body.password, 10)

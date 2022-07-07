@@ -21,7 +21,7 @@ const createSauce = (req, res) => {
     })
     sauce.save()
     .then(() => {
-        res.status(201).json({message : "Sauce enregistrée !"})
+        res.status(201).json({message : 'Sauce enregistrée !'})
     })
     .catch(err => { 
         res.status(400).json({ err })
@@ -57,9 +57,16 @@ const updateLike = (req, res) => {
             }
 
             else if (req.body.like == 0){
-                let userIndex = doc.usersLiked.indexOf(req.body.userId)
-                doc.usersLiked.splice(userIndex, 1)
-                doc.likes = doc.usersLiked.length
+                if (doc.usersLiked.includes(req.body.userId)) {
+                    let userIndex = doc.usersLiked.indexOf(req.body.userId)
+                    doc.usersLiked.splice(userIndex, 1)
+                    doc.likes = doc.usersLiked.length // MAJ DU NOMBRE DE LIKES
+                }
+                else {
+                    let userIndex = doc.usersDisliked.indexOf(req.body.userId)
+                    doc.usersDisliked.splice(userIndex, 1) 
+                    doc.dislikes = doc.usersDisliked.length // MAJ DU NOMBRE DE DISLIKES
+                }
             }
 
             else {
