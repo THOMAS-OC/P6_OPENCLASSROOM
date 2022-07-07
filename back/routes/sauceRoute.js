@@ -13,6 +13,7 @@ router.route('/:id')
 .put(controller.updateSauce) // UPDATE modification d'une sauce
 .delete(controller.deleteSauce) // DELETE suppression d'une sauce
 
+// LIKE : id de la sauce dans les paramètres d'url
 router.post('/:id/like', controller.updateLike)
 
 
