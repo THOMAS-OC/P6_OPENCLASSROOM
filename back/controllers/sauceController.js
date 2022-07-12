@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const path = require("path")
 // Importation des models
 const Sauce = require('../models/sauceModel');
@@ -6,14 +7,19 @@ const User = require('../models/userModel');
 
 // CREATE request OK
 const createSauce = (req, res) => {
+
+    const sauceObject = JSON.parse(req.body.sauce)
+    console.log(sauceObject);
+
+
     const sauce = new Sauce({
-        userId : '62c6e7ca7bdb2a4f4ea3ad1c',
-        name : req.body.name,
-        manufacturer : req.body.manufacturer,
-        description : req.body.description,
-        mainPepper : req.body.mainPepper,
-        imageUrl : "/images/moutarde.jpg",
-        heat : req.body.heatValue,
+        userId : "62c88e6d83f1517a4e0ed87b",
+        name : sauceObject.name,
+        manufacturer : sauceObject.manufacturer,
+        description : sauceObject.description,
+        mainPepper : sauceObject.mainPepper,
+        imageUrl : "http://localhost:3000/images/sauce-blanche-kebab.jpeg",
+        heat : sauceObject.heat,
         likes : 0,
         dislikes : 0,
         usersLiked : [] ,
@@ -97,6 +103,7 @@ const updateLike = (req, res) => {
 // READ request
 // OK
 const readOneSauce = (req, res) => {
+    console.log(req.auth);
     Sauce.findById(req.params.id, (err, doc) => {
         if (err){
             res.status(400).json({ err })
@@ -109,7 +116,7 @@ const readOneSauce = (req, res) => {
 
 // OK
 const readAllSauces = (req, res) => {
-    Sauce.find().exec()
+    Sauce.find()
     .then(sauces => res.json(sauces))
     .catch(err => console.log(err))
 }
@@ -124,23 +131,37 @@ const updateSauce = (req, res) => {
 // DELETE request
 // OK
 const deleteSauce = (req, res) => {
-    Sauce.findByIdAndRemove(req.params.id, (err, confirm)=>{
-        if (err){
-            res.status(400).json({ err })
+
+    Sauce.findOne({_id:req.params.id})
+    .then(sauce => {
+        console.log("id depuis la sauce : " + sauce.userId)
+        if (sauce.userId == req.auth.userId){
+            console.log("Autorisation de supprimer la sauce");
+            Sauce.deleteOne({ _id: req.params.id })
+            .then(() => res.status(200).json({ message: 'Sauce supprimé !'}))
+            .catch(error => res.status(400).json({ error }));
         }
         else {
-            res.status(201).json({message : `Sauce ${req.params.id} supprimée !`})
+            res.status(403).json({message : "Utilisateur non autorisé"})
+            console.log("non autorisé");
         }
     })
+
+    .catch(err => console.log(err))
+
 }
 
 
 
 module.exports = { 
+    // CREATE
+    createSauce,
+    // UPDATE
     readOneSauce,
     readAllSauces,
-    updateLike,
-    deleteSauce,
+    // UPDATE
     updateSauce,
-    createSauce,
+    updateLike,
+    // DELETE
+    deleteSauce,
 }
