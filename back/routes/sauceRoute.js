@@ -13,6 +13,7 @@ const upload = multer(
           cb(null, path.join( __dirname, '../images'));
         },
         filename: (req, file, cb) => {
+          req.body.pathImage = Date.now() + '-' + file.originalname
           cb(null, Date.now() + '-' + file.originalname);
         }
       })
@@ -22,7 +23,7 @@ const upload = multer(
 
 router.route('/')
 .get(authJwt, controller.readAllSauces) // READ Lecture du tableau de sauces
-.post(upload.single('image'), controller.createSauce) // CREATE Enregistrement d'une sauce
+.post(authJwt, upload.single('image'), controller.createSauce) // CREATE Enregistrement d'une sauce
 
 
 router.route('/:id')

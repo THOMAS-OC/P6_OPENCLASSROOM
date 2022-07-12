@@ -10,15 +10,15 @@ const createSauce = (req, res) => {
 
     const sauceObject = JSON.parse(req.body.sauce)
     console.log(sauceObject);
-
+    console.log(req.body.pathImage);
 
     const sauce = new Sauce({
-        userId : "62c88e6d83f1517a4e0ed87b",
+        userId : req.auth.userId,
         name : sauceObject.name,
         manufacturer : sauceObject.manufacturer,
         description : sauceObject.description,
         mainPepper : sauceObject.mainPepper,
-        imageUrl : "http://localhost:3000/images/sauce-blanche-kebab.jpeg",
+        imageUrl : `http://localhost:3000/images/${req.body.pathImage}`,
         heat : sauceObject.heat,
         likes : 0,
         dislikes : 0,
