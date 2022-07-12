@@ -22,7 +22,7 @@ const createSauce = (req, res) => {
         heat : sauceObject.heat,
         likes : 0,
         dislikes : 0,
-        usersLiked : [] ,
+        usersLiked : [],
         usersDisliked : []
     })
     sauce.save()
@@ -124,7 +124,29 @@ const readAllSauces = (req, res) => {
 
 // UPDATE request
 const updateSauce = (req, res) => {
-    res.send("Modification d'une sauce")
+
+
+    if(req.headers['content-type']){
+        console.log(req.headers['content-type']);
+        console.log(req.params.id);
+        Sauce.findByIdAndUpdate(req.params.id, {
+            name: req.body.name,
+            description: req.body.description,
+            mainPepper : req.body.mainPepper,
+            heat : req.body.heat,
+            manufacturer : req.body.manufacturer,
+            userId : req.body.userId
+        }, (err, sauceModified) => {
+            if(err){
+                res.send(err)
+            }
+            else{
+                res.status(201).json({message: "Sauce modifiée !"})
+            }
+        })
+    }
+
+
 }
 
 
@@ -156,7 +178,7 @@ const deleteSauce = (req, res) => {
 module.exports = { 
     // CREATE
     createSauce,
-    // UPDATE
+    // READ
     readOneSauce,
     readAllSauces,
     // UPDATE

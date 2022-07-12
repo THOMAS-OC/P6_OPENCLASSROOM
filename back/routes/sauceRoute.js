@@ -28,7 +28,7 @@ router.route('/')
 
 router.route('/:id')
 .get(authJwt, controller.readOneSauce) // READ Sauce spécifique
-.put(controller.updateSauce) // UPDATE modification d'une sauce
+.put(authJwt, controller.updateSauce) // UPDATE modification d'une sauce
 .delete(authJwt, controller.deleteSauce) // DELETE suppression d'une sauce
 
 // LIKE : id de la sauce dans les paramètres d'url
