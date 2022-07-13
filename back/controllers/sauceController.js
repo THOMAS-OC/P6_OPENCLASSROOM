@@ -126,9 +126,8 @@ const readAllSauces = (req, res) => {
 const updateSauce = (req, res) => {
 
 
-    if(req.headers['content-type']){
-        console.log(req.headers['content-type']);
-        console.log(req.params.id);
+    if(req.headers['content-type'] == "application/json"){
+        console.log("Modification des infos uniquements");
         Sauce.findByIdAndUpdate(req.params.id, {
             name: req.body.name,
             description: req.body.description,
@@ -142,6 +141,27 @@ const updateSauce = (req, res) => {
             }
             else{
                 res.status(201).json({message: "Sauce modifiée !"})
+            }
+        })
+    }
+
+    else {
+        console.log("Modification des infos ET de l'image");
+        const sauceObject = JSON.parse(req.body.sauce)
+        Sauce.findByIdAndUpdate(req.params.id, {
+            name: sauceObject.name,
+            description: sauceObject.description,
+            mainPepper : sauceObject.mainPepper,
+            heat : sauceObject.heat,
+            manufacturer : sauceObject.manufacturer,
+            userId : sauceObject.userId,
+            imageUrl : `http://localhost:3000/images/${req.body.pathImage}`,
+        }, (err, sauceModified) => {
+            if(err){
+                res.send(err)
+            }
+            else{
+                res.status(201).json({message: "Sauce modifiée avec nouvelle image !"})
             }
         })
     }
