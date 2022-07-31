@@ -4,10 +4,12 @@ const path = require("path");
 const mongoose = require('mongoose')
 const dotenv = require("dotenv")
 const cors = require("cors")
+const helmet = require('helmet');
 
 dotenv.config()
 
 app.use(express.json());
+app.use(helmet());
 app.use(express.urlencoded({extended: false}));
 app.use(cors());
 app.use((req, res, next) => {
@@ -36,8 +38,8 @@ const mongoAtlasUri = `mongodb+srv://thomas:${process.env.PASSWORD}@cluster0.t5p
 mongoose.connect(mongoAtlasUri,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie sur atlas !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+  .then(() => console.log('Connexion à MongoDB Atlas réussie !'))
+  .catch(() => console.log('Connexion à MongoDB Atlas échouée !'));
 
 
 
@@ -56,6 +58,6 @@ app.get("/", (req, res) => {
 })
 
 
-app.listen("3000", ()=>{
+app.listen(process.env.PORT, ()=>{
     console.log("Lancement du serveur");
 })

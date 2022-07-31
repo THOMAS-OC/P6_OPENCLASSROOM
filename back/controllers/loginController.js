@@ -40,6 +40,7 @@ const login = (req, res) => {
 // ROUTE D'INSCRIPTION
 
 const signup = (req, res) => {
+    
     console.log("on est dans la route de création de compte");
     console.log(req.body);
     bcrypt.hash(req.body.password, 10)
@@ -50,11 +51,13 @@ const signup = (req, res) => {
       });
       user.save()
         .then(() => res.status(201).json({message: 'Utilisateur créé !'}))
-        .catch(error => res.status(400).json({ error }));
+        .catch(error => {
+            console.log(error);
+            res.status(400).json({ error })
+        });
     })
     .catch(error => res.status(500).json({ error }));
     
-
 }
 
 module.exports = { 
