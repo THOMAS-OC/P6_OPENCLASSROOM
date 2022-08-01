@@ -5,7 +5,8 @@ require("dotenv").config()
 // Importation du modèle User
 const User = require('../models/userModel');
 
-// ROUTE DE LOGIN
+
+// ROUTE DE CONNEXION
 
 const login = (req, res) => {
     console.log(req.body);
