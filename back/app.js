@@ -3,7 +3,7 @@ const app = express()
 const path = require("path");
 const mongoose = require('mongoose')
 const dotenv = require("dotenv")
-const cors = require("cors")
+
 const helmet = require('helmet');
 
 dotenv.config()
@@ -11,7 +11,6 @@ dotenv.config()
 app.use(express.json());
 app.use(helmet());
 app.use(express.urlencoded({extended: false}));
-app.use(cors());
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
@@ -21,6 +20,10 @@ app.use((req, res, next) => {
     res.setHeader(
       "Access-Control-Allow-Methods",
       "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    );
+    res.setHeader(
+      "Cross-Origin-Resource-Policy",
+      "cross-origin"
     );
     next();
 });
