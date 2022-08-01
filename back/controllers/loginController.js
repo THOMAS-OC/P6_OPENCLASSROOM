@@ -40,9 +40,7 @@ const login = (req, res) => {
 // ROUTE D'INSCRIPTION
 
 const signup = (req, res) => {
-    
-    console.log("on est dans la route de création de compte");
-    console.log(req.body);
+
     bcrypt.hash(req.body.password, 10)
     .then(hash => {
       const user = new User({

@@ -4,10 +4,8 @@ const fs = require("fs")
 // Importation des models
 const Sauce = require('../models/sauceModel');
 const User = require('../models/userModel');
-const { log } = require('console');
 
-
-// CREATE request OK
+// CREATE
 const createSauce = (req, res) => {
 
     const sauceObject = JSON.parse(req.body.sauce)
@@ -35,6 +33,7 @@ const createSauce = (req, res) => {
         res.status(400).json({ err })
         console.log(err);
     })
+
 }
 
 // UPDATE request
@@ -205,7 +204,6 @@ const updateSauce = (req, res) => {
 
 
     if(req.headers['content-type'] == "application/json"){
-        console.log("Modification des infos uniquements");
         Sauce.findByIdAndUpdate(req.params.id, {
             name: req.body.name,
             description: req.body.description,
@@ -224,7 +222,6 @@ const updateSauce = (req, res) => {
     }
 
     else {
-        console.log("Modification des infos ET de l'image");
         const sauceObject = JSON.parse(req.body.sauce)
         Sauce.findByIdAndUpdate(req.params.id, {
             name: sauceObject.name,
@@ -244,7 +241,6 @@ const updateSauce = (req, res) => {
         })
     }
 
-
 }
 
 
@@ -257,7 +253,7 @@ const deleteSauce = (req, res) => {
         
         let filename = sauce.imageUrl;
         filename = filename.split('/')
-        filename = filename[filename.length - 1] // name file image
+        filename = filename[filename.length - 1]
 
         let pathDelete = path.join(process.cwd(),'back/images/', filename)
 

@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router()
 const controller = require('../controllers/sauceController')
-const authJwt = require("../authJwt")
+const authJwt = require("../middlewares/authJwt")
 const multer = require("multer")
 const path = require("path")
 
 const upload = multer(
+  
     {
         
       storage: multer.diskStorage({
@@ -18,7 +19,7 @@ const upload = multer(
         }
       })
 
-    });
+});
 
 
 router.route('/')
