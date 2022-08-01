@@ -5,6 +5,15 @@ const controller = require('../controllers/loginController')
 // Limitation du nombre de requete pour une même ip
 const rateLimit = require('express-rate-limit')
 
+const connectAccountLimiter = rateLimit({
+	windowMs: 60 * 60 * 1000, // 1 hour
+	max: 5, // Limit each IP to 5 create account requests per `window` (here, per hour)
+	message:
+		'Dépassement du nombre de tentatives de connexion, IP bloqué pour 1h.',
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+
 const createAccountLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 1 hour
 	max: 3, // Limit each IP to 5 create account requests per `window` (here, per hour)
@@ -14,7 +23,7 @@ const createAccountLimiter = rateLimit({
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
 
-router.post('/login', controller.login)
+router.post('/login', connectAccountLimiter, controller.login)
 
 router.post('/signup', createAccountLimiter, controller.signup)
 
