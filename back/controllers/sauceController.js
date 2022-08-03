@@ -18,7 +18,7 @@ const createSauce = (req, res) => {
         manufacturer : sauceObject.manufacturer,
         description : sauceObject.description,
         mainPepper : sauceObject.mainPepper,
-        imageUrl : `http://localhost:3000/images/${req.body.pathImage}`,
+        imageUrl : `https://localhost:3000/images/${req.body.pathImage}`,
         heat : sauceObject.heat,
         likes : 0,
         dislikes : 0,
@@ -230,7 +230,7 @@ const updateSauce = (req, res) => {
             heat : sauceObject.heat,
             manufacturer : sauceObject.manufacturer,
             userId : sauceObject.userId,
-            imageUrl : `http://localhost:3000/images/${req.body.pathImage}`,
+            imageUrl : `https://localhost:3000/images/${req.body.pathImage}`,
         }, (err, sauceModified) => {
             if(err){
                 res.send(err)

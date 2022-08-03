@@ -1,6 +1,7 @@
 const path = require("path")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const cryptojs = require("crypto-js")
 require("dotenv").config()
 // Importation du modèle User
 const User = require('../models/userModel');
@@ -9,8 +10,10 @@ const User = require('../models/userModel');
 // ROUTE DE CONNEXION
 
 const login = (req, res) => {
-    console.log(req.body);
-    User.findOne({ email: req.body.email })
+    console.log("on est sur login !");
+    const emailCrypt = cryptojs.HmacSHA256(req.body.email, process.env.CRYPTOEMAIL).toString()
+    console.log(emailCrypt);
+    User.findOne({ email: emailCrypt })
         .then(user => {
             if (!user) {
                 return res.status(401).json({ message: 'utilisateur non inscrit'});
@@ -41,11 +44,12 @@ const login = (req, res) => {
 // ROUTE D'INSCRIPTION
 
 const signup = (req, res) => {
+    const emailCrypt = cryptojs.HmacSHA256(req.body.email, process.env.CRYPTOEMAIL).toString()
 
     bcrypt.hash(req.body.password, 10)
     .then(hash => {
       const user = new User({
-        email: req.body.email,
+        email: emailCrypt,
         password: hash
       });
       user.save()
