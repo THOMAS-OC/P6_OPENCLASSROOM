@@ -39,7 +39,7 @@ const sauceRoute = require('./routes/sauceRoute');
 const loginRoute = require('./routes/loginRoute');
 
 // Connexion à la BDD
-const mongoAtlasUri = `mongodb+srv://thomas:${process.env.PASSWORD}@cluster0.t5pqev1.mongodb.net/P6_OC?retryWrites=true&w=majority`;
+const mongoAtlasUri = `mongodb+srv://thomas:${process.env.PASSWORDBDD}@cluster0.t5pqev1.mongodb.net/P6_OC?retryWrites=true&w=majority`;
 
 mongoose.connect(mongoAtlasUri,
   { useNewUrlParser: true,

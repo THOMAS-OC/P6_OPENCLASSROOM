@@ -10,7 +10,6 @@ const User = require('../models/userModel');
 // ROUTE DE CONNEXION
 
 const login = (req, res) => {
-    console.log("on est sur login !");
     const emailCrypt = cryptojs.HmacSHA256(req.body.email, process.env.CRYPTOEMAIL).toString()
     console.log(emailCrypt);
     User.findOne({ email: emailCrypt })

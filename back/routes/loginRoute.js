@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router()
 const controller = require('../controllers/loginController')
 const passVlidator = require("../middlewares/passValidator")
-
+const mailValidator = require("../middlewares/mailValidator")
 // Limitation du nombre de requete pour une même ip
 const rateLimit = require('express-rate-limit')
 
@@ -24,8 +24,8 @@ const createAccountLimiter = rateLimit({
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
 
-router.post('/login', connectAccountLimiter, controller.login)
+router.post('/login', mailValidator, passVlidator, connectAccountLimiter, controller.login)
 
-router.post('/signup', passVlidator, createAccountLimiter, controller.signup)
+router.post('/signup', mailValidator, passVlidator, createAccountLimiter, controller.signup)
 
 module.exports = router;
