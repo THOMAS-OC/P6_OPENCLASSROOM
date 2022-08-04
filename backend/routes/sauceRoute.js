@@ -3,7 +3,7 @@ const router = express.Router()
 const controller = require('../controllers/sauceController')
 const authJwt = require("../middlewares/authJwt")
 const sauceValidator = require("../middlewares/sauceValidator")
-const deleteBeforeUpdate = require("../middlewares/deleteBeforeUpdate")
+const deleteImage = require("../middlewares/deleteImage")
 const multer = require("multer")
 const path = require("path")
 
@@ -42,8 +42,8 @@ router.route('/')
 
 router.route('/:id')
 .get(authJwt, controller.readOneSauce) // READ Sauce spécifique
-.put(authJwt, createAndUpdateLimiter, upload.single('image'), deleteBeforeUpdate, controller.updateSauce) // UPDATE modification d'une sauce
-.delete(authJwt, controller.deleteSauce) // DELETE suppression d'une sauce
+.put(authJwt, createAndUpdateLimiter, upload.single('image'), deleteImage, controller.updateSauce) // UPDATE modification d'une sauce
+.delete(authJwt, deleteImage, controller.deleteSauce) // DELETE suppression d'une sauce
 
 // LIKE : id de la sauce dans les paramètres d'url
 router.post('/:id/like', controller.updateLike)
