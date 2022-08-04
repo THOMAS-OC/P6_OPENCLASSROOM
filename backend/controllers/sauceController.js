@@ -5,12 +5,19 @@ const fs = require("fs")
 const Sauce = require('../models/sauceModel');
 const User = require('../models/userModel');
 
+
 // CREATE
 const createSauce = (req, res) => {
+
+    const nameSauceRegex = new RegExp('^[a-zA-Z]{3,100}');
 
     const sauceObject = JSON.parse(req.body.sauce)
     console.log(sauceObject);
     console.log(req.body.pathImage);
+
+    if (nameSauceRegex.test(sauceObject.name)){
+        console.log("okay");
+    }
 
     const sauce = new Sauce({
         userId : req.auth.userId,

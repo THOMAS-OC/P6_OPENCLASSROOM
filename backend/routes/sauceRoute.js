@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router()
 const controller = require('../controllers/sauceController')
 const authJwt = require("../middlewares/authJwt")
+const sauceValidator = require("../middlewares/sauceValidator")
 const multer = require("multer")
 const path = require("path")
 
@@ -37,7 +38,7 @@ const createAndUpdateLimiter = rateLimit({
 
 router.route('/')
 .get(authJwt, controller.readAllSauces) // READ Lecture du tableau de sauces
-.post(authJwt, createAndUpdateLimiter, upload.single('image'), controller.createSauce) // CREATE Enregistrement d'une sauce
+.post(authJwt, createAndUpdateLimiter, upload.single('image'), sauceValidator, controller.createSauce) // CREATE Enregistrement d'une sauce
 
 
 router.route('/:id')
