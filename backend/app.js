@@ -30,8 +30,8 @@ app.use((req, res, next) => {
 });
 
 // Ajout HTTPS
-const key = fs.readFileSync(__dirname + "/" + "localhost-key.pem", "utf-8");
-const cert = fs.readFileSync(__dirname + "/" + "localhost.pem", "utf-8");
+const key = fs.readFileSync(path.join(__dirname, 'localhost-key.pem'), "utf-8");
+const cert = fs.readFileSync(path.join(__dirname, 'localhost.pem'), "utf-8");
 
 // imporation des routeurs
 const sauceRoute = require('./routes/sauceRoute');
