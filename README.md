@@ -15,4 +15,4 @@ Projet développé dans un environnement Angular côté front et NodeJs-Express 
 * Executer la commande `npm start` au sein du dossier `backend/`
 
 ## LANCEMENT DU SITE
-Ouvrez votre navigateur à l'adresse `http://localhost:4200/`
+* Ouvrez votre navigateur à l'adresse [Node.js](http://localhost:4200/ "Lien de téléchargement officiel Node.js")
