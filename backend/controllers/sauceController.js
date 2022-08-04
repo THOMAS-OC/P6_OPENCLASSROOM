@@ -8,17 +8,7 @@ const User = require('../models/userModel');
 
 // CREATE
 const createSauce = (req, res) => {
-
-    const nameSauceRegex = new RegExp('^[a-zA-Z]{3,100}');
-
     const sauceObject = JSON.parse(req.body.sauce)
-    console.log(sauceObject);
-    console.log(req.body.pathImage);
-
-    if (nameSauceRegex.test(sauceObject.name)){
-        console.log("okay");
-    }
-
     const sauce = new Sauce({
         userId : req.auth.userId,
         name : sauceObject.name,
@@ -185,7 +175,7 @@ const updateLike = (req, res) => {
 
 
 // READ request
-// OK
+
 const readOneSauce = (req, res) => {
     console.log(req.auth);
     Sauce.findById(req.params.id, (err, doc) => {
@@ -198,18 +188,16 @@ const readOneSauce = (req, res) => {
     })
 }
 
-// OK
 const readAllSauces = (req, res) => {
     Sauce.find()
     .then(sauces => res.json(sauces))
     .catch(err => console.log(err))
 }
 
-
 // UPDATE request
 const updateSauce = (req, res) => {
 
-
+    // UPDATE INFO
     if(req.headers['content-type'] == "application/json"){
         Sauce.findByIdAndUpdate(req.params.id, {
             name: req.body.name,
@@ -228,6 +216,7 @@ const updateSauce = (req, res) => {
         })
     }
 
+    // UPDATE INFO AND IMAGE
     else {
         const sauceObject = JSON.parse(req.body.sauce)
         Sauce.findByIdAndUpdate(req.params.id, {
@@ -262,7 +251,8 @@ const deleteSauce = (req, res) => {
         filename = filename.split('/')
         filename = filename[filename.length - 1]
 
-        let pathDelete = path.join(process.cwd(),'back/images/', filename)
+        let pathDelete = path.join(process.cwd(),'images/', filename)
+        console.log(pathDelete);
 
         if (sauce.userId == req.auth.userId){
             fs.unlink(pathDelete, () => {
