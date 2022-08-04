@@ -42,7 +42,7 @@ router.route('/')
 
 router.route('/:id')
 .get(authJwt, controller.readOneSauce) // READ Sauce spécifique
-.put(authJwt, createAndUpdateLimiter, upload.single('image'), deleteImage, controller.updateSauce) // UPDATE modification d'une sauce
+.put(authJwt, createAndUpdateLimiter, upload.single('image'), deleteImage, sauceValidator, controller.updateSauce) // UPDATE modification d'une sauce
 .delete(authJwt, deleteImage, controller.deleteSauce) // DELETE suppression d'une sauce
 
 // LIKE : id de la sauce dans les paramètres d'url

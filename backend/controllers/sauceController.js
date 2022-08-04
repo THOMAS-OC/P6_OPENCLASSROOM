@@ -244,6 +244,7 @@ const updateSauce = (req, res) => {
 // OK
 const deleteSauce = (req, res) => {
 
+    console.log("on supprime de la bdd");
     Sauce.findOne({_id:req.params.id})
     .then(sauce => {
         
