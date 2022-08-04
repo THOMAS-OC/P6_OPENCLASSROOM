@@ -10,7 +10,6 @@ const path = require("path")
 const upload = multer(
   
     {
-        
       storage: multer.diskStorage({
         destination: (req, file, cb) => {
           cb(null, path.join( __dirname, '../images'));
@@ -20,7 +19,6 @@ const upload = multer(
           cb(null, Date.now() + '-' + file.originalname);
         }
       })
-
 });
 
 // Limitation du nombre de requete pour une même ip
