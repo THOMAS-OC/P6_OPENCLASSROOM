@@ -3,6 +3,8 @@ Projet développé dans un environnement Angular côté front et NodeJs-Express 
 
 ## PROGRAMME REQUIS
 * [Node.js](https://nodejs.org/fr/download/ "Lien de téléchargement officiel Node.js")
+* Si Angular n'est pas installé sur votre machine : Executer la commande `npm install -g @angular/cli`
+
 
 ## Lancement du FRONTEND
 * Executer la commande `cd frontend` depuis le dossier racine `P6_OPENCLASSROOM`
@@ -15,4 +17,4 @@ Projet développé dans un environnement Angular côté front et NodeJs-Express 
 * Executer la commande `npm start` au sein du dossier `backend/`
 
 ## LANCEMENT DU SITE
-* Ouvrez votre navigateur à l'adresse [localhost:4200](http://localhost:4200/ "Lien de téléchargement officiel Node.js")
+* Ouvrez votre navigateur à l'adresse [localhost:4200](http://localhost:4200/ "PORT LOCAL 4200")
