@@ -2,7 +2,7 @@
 Projet développé dans un environnement Angular côté front et NodeJs-Express côté back-end.
 
 ## PROGRAMME REQUIS
-* Node JS
+* [Node.js](https://nodejs.org/en/download/ "Lien de téléchargement officiel Node.js")
 
 ## Lancement du FRONTEND
 * Executer la commande `npm install` au sein du dossier `frontend/`
