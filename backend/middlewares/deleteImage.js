@@ -19,22 +19,17 @@ module.exports = (req, res, next) => {
             filename = filename[filename.length - 1]
 
             let pathDelete = path.join(process.cwd(),'images/', filename)
-            console.log(pathDelete);
 
             if (sauce.userId == req.auth.userId){
-                fs.unlink(pathDelete, () => {
-                    console.log("Suppression depuis le middleware");
-                })
-                next()
+                fs.unlink(pathDelete, () => next())
             }
 
             else {
                 res.status(403).json({message : "Utilisateur non autorisé"})
-                console.log("non autorisé");
             }
 
         })
 
-        .catch(err => console.log(err))
+        .catch(error => res.status(400).json({ error }))
     }
 };

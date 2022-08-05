@@ -24,7 +24,7 @@ const createAccountLimiter = rateLimit({
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
 
-router.post('/login', mailValidator, passVlidator, connectAccountLimiter, controller.login)
+router.post('/login', connectAccountLimiter, controller.login)
 
 router.post('/signup', mailValidator, passVlidator, createAccountLimiter, controller.signup)
 

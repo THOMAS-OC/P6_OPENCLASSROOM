@@ -23,7 +23,6 @@ module.exports = (req, res, next) => {
 
         if (deleteImage){
             let pathDelete = path.join(process.cwd(),'/images/', req.body.pathImage)
-            console.log(pathDelete);
             // Suppression de l'image enregistrée
             fs.unlink(pathDelete, () => {
                 res.status(400).json({message : "Formulaire non sécurisé"})
@@ -39,7 +38,6 @@ module.exports = (req, res, next) => {
 
         if (deleteImage) {
             let pathDelete = path.join(process.cwd(),'/images/', req.body.pathImage)
-            console.log(pathDelete);
             // Suppression de l'image enregistrée
             fs.unlink(pathDelete, () => {
                 res.status(400).json({message : "Formulaire non valide"})

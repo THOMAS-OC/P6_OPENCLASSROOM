@@ -28,7 +28,6 @@ const createSauce = (req, res) => {
     })
     .catch(err => { 
         res.status(400).json({ err })
-        console.log(err);
     })
 
 }
@@ -36,9 +35,6 @@ const createSauce = (req, res) => {
 // UPDATE request
 
 const updateLike = (req, res) => {
-    console.log("id de la sauce : " + req.params.id); // ID DE LA SAUCE
-    console.log("id du user : " + req.body.userId); // ID DU USER
-    console.log("nombre ajouté au like : " + req.body.like); // chiffre de -1 à 1
     // trouvé la sauce
     Sauce.findById(req.params.id, (err, doc) => {
 
@@ -55,7 +51,6 @@ const updateLike = (req, res) => {
                 if (doc.usersDisliked.includes(req.body.userId)) {
 
                     // suppression du dislike
-                    console.log("L'utilisateur est dans les dislikes");
                     let userIndex = doc.usersDisliked.indexOf(req.body.userId)
                     doc.usersDisliked.splice(userIndex, 1)
 
@@ -131,7 +126,6 @@ const updateLike = (req, res) => {
                 // PRESENCE D'UN LIKE DANS LA BDD
                 if (doc.usersLiked.includes(req.body.userId)) {
 
-                    console.log("L'utilisateur est dans les likes");
                     let userIndex = doc.usersLiked.indexOf(req.body.userId)
                     doc.usersLiked.splice(userIndex, 1)
 
@@ -177,7 +171,6 @@ const updateLike = (req, res) => {
 // READ request
 
 const readOneSauce = (req, res) => {
-    console.log(req.auth);
     Sauce.findById(req.params.id, (err, doc) => {
         if (err){
             res.status(400).json({ err })
@@ -191,7 +184,7 @@ const readOneSauce = (req, res) => {
 const readAllSauces = (req, res) => {
     Sauce.find()
     .then(sauces => res.json(sauces))
-    .catch(err => console.log(err))
+    .catch(error => res.status(400).json({ error }));
 }
 
 // UPDATE request
@@ -244,12 +237,10 @@ const updateSauce = (req, res) => {
 // OK
 const deleteSauce = (req, res) => {
 
-    console.log("on supprime de la bdd");
     Sauce.findOne({_id:req.params.id})
     .then(sauce => {
         
         if (sauce.userId == req.auth.userId){
-            console.log("Suppression autorisée");
             Sauce.deleteOne({ _id: req.params.id })
             .then(() => res.status(200).json({ message: 'Sauce supprimé !'}))
             .catch(error => res.status(400).json({ error }));
@@ -257,12 +248,11 @@ const deleteSauce = (req, res) => {
 
         else {
             res.status(403).json({message : "Utilisateur non autorisé"})
-            console.log("non autorisé");
         }
 
     })
 
-    .catch(err => console.log(err))
+    .catch(error => res.status(400).json({ error }));
 
 }
 
