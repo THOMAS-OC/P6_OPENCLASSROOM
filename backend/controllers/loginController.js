@@ -35,11 +35,10 @@ const login = (req, res) => {
                 .catch(error => res.status(500).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
-  }
+}
 
 
 // ROUTE D'INSCRIPTION
-
 const signup = (req, res) => {
     const emailCrypt = cryptojs.HmacSHA256(req.body.email, process.env.CRYPTOEMAIL).toString()
 

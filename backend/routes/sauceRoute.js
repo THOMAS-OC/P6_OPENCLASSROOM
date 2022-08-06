@@ -46,6 +46,6 @@ router.route('/:id')
 .delete(authJwt, deleteImage, controller.deleteSauce) // DELETE suppression d'une sauce
 
 // LIKE : id de la sauce dans les paramètres d'url
-router.post('/:id/like', controller.like)
+router.post('/:id/like', authJwt, controller.like)
 
 module.exports = router;

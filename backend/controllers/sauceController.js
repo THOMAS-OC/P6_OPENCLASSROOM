@@ -191,45 +191,58 @@ const readAllSauces = (req, res) => {
 // UPDATE request
 const updateSauce = (req, res) => {
 
-    // UPDATE INFO
-    if(req.headers['content-type'] == "application/json"){
-        Sauce.findByIdAndUpdate(req.params.id, {
-            name: req.body.name,
-            description: req.body.description,
-            mainPepper : req.body.mainPepper,
-            heat : req.body.heat,
-            manufacturer : req.body.manufacturer,
-            userId : req.body.userId
-        }, (err, sauceModified) => {
-            if(err){
-                res.send(err)
-            }
-            else{
-                res.status(201).json({message: "Sauce modifiée !"})
-            }
-        })
-    }
+    console.log(req.auth.userId);
 
-    // UPDATE INFO AND IMAGE
-    else {
-        const sauceObject = JSON.parse(req.body.sauce)
-        Sauce.findByIdAndUpdate(req.params.id, {
-            name: sauceObject.name,
-            description: sauceObject.description,
-            mainPepper : sauceObject.mainPepper,
-            heat : sauceObject.heat,
-            manufacturer : sauceObject.manufacturer,
-            userId : sauceObject.userId,
-            imageUrl : `https://localhost:3001/images/${req.body.pathImage}`,
-        }, (err, sauceModified) => {
-            if(err){
-                res.send(err)
+    Sauce.findOne({_id:req.params.id})
+    .then(sauce => {
+        if (sauce.userId == req.auth.userId){
+            // UPDATE INFO
+            if(req.headers['content-type'] == "application/json"){
+                Sauce.findByIdAndUpdate(req.params.id, {
+                    name: req.body.name,
+                    description: req.body.description,
+                    mainPepper : req.body.mainPepper,
+                    heat : req.body.heat,
+                    manufacturer : req.body.manufacturer,
+                    userId : req.body.userId
+                }, (err, sauceModified) => {
+                    if(err){
+                        res.send(err)
+                    }
+                    else{
+                        res.status(201).json({message: "Sauce modifiée !"})
+                    }
+                })
             }
-            else{
-                res.status(201).json({message: "Sauce modifiée avec nouvelle image !"})
+
+            // UPDATE INFO AND IMAGE
+            else {
+                const sauceObject = JSON.parse(req.body.sauce)
+                Sauce.findByIdAndUpdate(req.params.id, {
+                    name: sauceObject.name,
+                    description: sauceObject.description,
+                    mainPepper : sauceObject.mainPepper,
+                    heat : sauceObject.heat,
+                    manufacturer : sauceObject.manufacturer,
+                    userId : sauceObject.userId,
+                    imageUrl : `https://localhost:3001/images/${req.body.pathImage}`,
+                }, (err, sauceModified) => {
+                    if(err){
+                        res.send(err)
+                    }
+                    else{
+                        res.status(201).json({message: "Sauce modifiée avec nouvelle image !"})
+                    }
+                })
             }
-        })
-    }
+        }
+
+        else {
+            res.status(403).json({message : "Utilisateur non autorisé"})
+        }
+    })
+
+    .catch(error => res.status(400).json({ error }))
 
 }
 
