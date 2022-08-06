@@ -15,7 +15,7 @@ const createSauce = (req, res) => {
         manufacturer : sauceObject.manufacturer,
         description : sauceObject.description,
         mainPepper : sauceObject.mainPepper,
-        imageUrl : `https://localhost:3000/images/${req.body.pathImage}`,
+        imageUrl : `https://localhost:3001/images/${req.body.pathImage}`,
         heat : sauceObject.heat,
         likes : 0,
         dislikes : 0,
@@ -26,15 +26,16 @@ const createSauce = (req, res) => {
     .then(() => {
         res.status(201).json({message : 'Sauce enregistrée !'})
     })
-    .catch(err => { 
-        res.status(400).json({ err })
+    .catch(error => { 
+        console.log(error);
+        res.status(400).json({ error })
     })
 
 }
 
 // UPDATE request
 
-const updateLike = (req, res) => {
+const like = (req, res) => {
     // trouvé la sauce
     Sauce.findById(req.params.id, (err, doc) => {
 
@@ -219,7 +220,7 @@ const updateSauce = (req, res) => {
             heat : sauceObject.heat,
             manufacturer : sauceObject.manufacturer,
             userId : sauceObject.userId,
-            imageUrl : `https://localhost:3000/images/${req.body.pathImage}`,
+            imageUrl : `https://localhost:3001/images/${req.body.pathImage}`,
         }, (err, sauceModified) => {
             if(err){
                 res.send(err)
@@ -261,12 +262,15 @@ const deleteSauce = (req, res) => {
 module.exports = { 
     // CREATE
     createSauce,
+
     // READ
     readOneSauce,
     readAllSauces,
+
     // UPDATE
     updateSauce,
-    updateLike,
+    like,
+    
     // DELETE
     deleteSauce,
 }

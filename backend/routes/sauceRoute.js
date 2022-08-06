@@ -27,9 +27,9 @@ const rateLimit = require('express-rate-limit')
 
 const createAndUpdateLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 1 hour
-	max: 10, // Limit each IP to 5 create account requests per `window` (here, per hour)
+	max: 20, // Limit each IP to 5 create account requests per `window` (here, per hour)
 	message:
-		'Attention, vous ne pouvez créer ou modifier une sauce que 10 fois par heure',
+		'Attention, vous ne pouvez créer ou modifier une sauce que 20 fois par heure',
 	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
@@ -46,7 +46,6 @@ router.route('/:id')
 .delete(authJwt, deleteImage, controller.deleteSauce) // DELETE suppression d'une sauce
 
 // LIKE : id de la sauce dans les paramètres d'url
-router.post('/:id/like', controller.updateLike)
-
+router.post('/:id/like', controller.like)
 
 module.exports = router;

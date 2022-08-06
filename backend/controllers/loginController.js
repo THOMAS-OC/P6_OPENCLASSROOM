@@ -1,4 +1,3 @@
-const path = require("path")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const cryptojs = require("crypto-js")
@@ -28,7 +27,7 @@ const login = (req, res) => {
                           token: jwt.sign(
                               { userId: user._id },
                               process.env.SECRETKEY,
-                              {expiresIn: "1800s"}
+                              {expiresIn: "3600s"}
                           )
                     });
   

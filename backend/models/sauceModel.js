@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const sauceSchema = mongoose.Schema({
     userId: { type: String, required: true },
     name: { type: String, required: true },
@@ -11,8 +10,8 @@ const sauceSchema = mongoose.Schema({
     heat: { 
         type: Number, 
         required: true,
-        min: 1,
-        max: 10
+        min: [1, 'Minimum 1'],
+        max: [10, 'maximum 100']
     },
     likes: { type: Number, required: true },
     dislikes: { type: Number, required: true },
