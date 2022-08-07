@@ -49,14 +49,14 @@ const like = (req, res) => {
             if (req.body.like == 1){
 
                 // PRESENCE D'UN DISLIKE DANS LA BDD
-                if (doc.usersDisliked.includes(req.body.userId)) {
+                if (doc.usersDisliked.includes(req.auth.userId)) {
 
                     // suppression du dislike
-                    let userIndex = doc.usersDisliked.indexOf(req.body.userId)
+                    let userIndex = doc.usersDisliked.indexOf(req.auth.userId)
                     doc.usersDisliked.splice(userIndex, 1)
 
                     // ajout du like
-                    doc.usersLiked.push(req.body.userId)
+                    doc.usersLiked.push(req.auth.userId)
 
                     // Mise à jour du nombre de likes et de dislikes
                     doc.dislikes = doc.usersDisliked.length
@@ -69,15 +69,15 @@ const like = (req, res) => {
 
 
                 // DOUBLON DE LIKE
-                else if (doc.usersLiked.includes(req.body.userId)){
-                    res.status(401).json({message : "Vous n'êtes pas autorisé à liker deux fois"})
+                else if (doc.usersLiked.includes(req.auth.userId)){
+                    res.status(400).json({message : "Limit like"})
                 }
 
                 // CAS NOMINAL
 
                 else {
                     // ajout du like
-                    doc.usersLiked.push(req.body.userId)
+                    doc.usersLiked.push(req.auth.userId)
 
                     // Mise à jour du nombre de likes et de dislikes
                     doc.dislikes = doc.usersDisliked.length
@@ -98,15 +98,15 @@ const like = (req, res) => {
             else if (req.body.like == 0){
 
                 // suppression de like
-                if (doc.usersLiked.includes(req.body.userId)) {
-                    let userIndex = doc.usersLiked.indexOf(req.body.userId)
+                if (doc.usersLiked.includes(req.auth.userId)) {
+                    let userIndex = doc.usersLiked.indexOf(req.auth.userId)
                     doc.usersLiked.splice(userIndex, 1)
                     doc.likes = doc.usersLiked.length // MAJ DU NOMBRE DE LIKES
                 }
                 
                 // suppression de dislike
                 else {
-                    let userIndex = doc.usersDisliked.indexOf(req.body.userId)
+                    let userIndex = doc.usersDisliked.indexOf(req.auth.userId)
                     doc.usersDisliked.splice(userIndex, 1) 
                     doc.dislikes = doc.usersDisliked.length // MAJ DU NOMBRE DE DISLIKES
                 }
@@ -125,13 +125,13 @@ const like = (req, res) => {
             else {
 
                 // PRESENCE D'UN LIKE DANS LA BDD
-                if (doc.usersLiked.includes(req.body.userId)) {
+                if (doc.usersLiked.includes(req.auth.userId)) {
 
-                    let userIndex = doc.usersLiked.indexOf(req.body.userId)
+                    let userIndex = doc.usersLiked.indexOf(req.auth.userId)
                     doc.usersLiked.splice(userIndex, 1)
 
                     // Ajouter l'utilisateur à la liste de dislikes
-                    doc.usersDisliked.push(req.body.userId)
+                    doc.usersDisliked.push(req.auth.userId)
                     
                     // Mise à jour du nombre de likes et de dislikes
                     doc.dislikes = doc.usersDisliked.length
@@ -143,15 +143,15 @@ const like = (req, res) => {
                 }
 
                 // Empêcher plusieurs dislike
-                else if (doc.usersDisliked.includes(req.body.userId)){
-                    res.status(401).json({message : "Vous n'êtes pas autorisé à disliker deux fois"})
+                else if (doc.usersDisliked.includes(req.auth.userId)){
+                    res.status(400).json({message : "Limit dislike"})
                 }
 
                 // Cas nominal
                 else {
 
                     // Ajouter l'utilisateur à la liste de dislikes
-                    doc.usersDisliked.push(req.body.userId)
+                    doc.usersDisliked.push(req.auth.userId)
                     
                     // Mise à jour du nombre de likes et de dislikes
                     doc.dislikes = doc.usersDisliked.length
@@ -174,7 +174,7 @@ const like = (req, res) => {
 const readOneSauce = (req, res) => {
     Sauce.findById(req.params.id, (err, doc) => {
         if (err){
-            res.status(400).json({ err })
+            res.status(404).json({ err })
         }
         else {
             res.status(201).json(doc)
@@ -185,7 +185,7 @@ const readOneSauce = (req, res) => {
 const readAllSauces = (req, res) => {
     Sauce.find()
     .then(sauces => res.json(sauces))
-    .catch(error => res.status(400).json({ error }));
+    .catch(error => res.status(404).json({ error }));
 }
 
 // UPDATE request
@@ -207,7 +207,7 @@ const updateSauce = (req, res) => {
                     userId : req.body.userId
                 }, (err, sauceModified) => {
                     if(err){
-                        res.send(err)
+                        res.status(400).json(err)
                     }
                     else{
                         res.status(201).json({message: "Sauce modifiée !"})
@@ -228,7 +228,7 @@ const updateSauce = (req, res) => {
                     imageUrl : `https://localhost:3001/images/${req.body.pathImage}`,
                 }, (err, sauceModified) => {
                     if(err){
-                        res.send(err)
+                        res.status(400).json(err)
                     }
                     else{
                         res.status(201).json({message: "Sauce modifiée avec nouvelle image !"})
